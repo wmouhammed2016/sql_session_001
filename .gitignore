@@ -1,2 +1,5 @@
 # Ignoring the virtual enviorment
 .venv/*
+
+# Ignoring the lecture demo
+lecture_001.sql
