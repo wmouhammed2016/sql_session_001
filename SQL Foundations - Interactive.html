@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Foundations — Interactive Guide</title>
+<style>
+  :root{
+    --bg:#ffffff; --panel:#f7f8fb; --panel2:#eef1f6; --border:#dbe1ec;
+    --text:#1b2333; --muted:#5b6478; --accent:#3457ea; --accent2:#b3560d;
+    --good:#1a7f37; --bad:#cf222e; --key:#9a6700;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.55;
+  }
+  a{color:var(--accent);}
+  h1,h2,h3{font-weight:600; margin-top:0;}
+  .hero{
+    padding:56px 24px 32px; text-align:center; max-width:900px; margin:0 auto;
+  }
+  .hero h1{font-size:2rem;}
+  .hero p{color:var(--muted); font-size:1.05rem;}
+  nav{
+    position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--border);
+    padding:10px 16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+    box-shadow:0 2px 10px rgba(20,30,60,.04);
+  }
+  nav a{
+    color:var(--muted); text-decoration:none; font-size:.85rem; padding:6px 12px;
+    border-radius:20px; border:1px solid var(--border); transition:.2s;
+  }
+  nav a:hover{color:var(--text); border-color:var(--accent);}
+  section{
+    max-width:980px; margin:0 auto; padding:56px 24px; border-bottom:1px dashed var(--border);
+  }
+  section:last-of-type{border-bottom:none;}
+  .tag{
+    display:inline-block; font-size:.75rem; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--accent); background:rgba(52,87,234,.10); padding:4px 10px; border-radius:20px;
+    margin-bottom:10px;
+  }
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:24px; margin-top:20px;
+  }
+  .muted{color:var(--muted);}
+  .btn{
+    background:var(--accent); color:#fff; border:none; padding:10px 18px; border-radius:8px;
+    font-size:.9rem; cursor:pointer; font-weight:600; transition:.15s;
+  }
+  .btn:hover{filter:brightness(1.1); transform:translateY(-1px);}
+  .btn.secondary{background:var(--panel2); border:1px solid var(--border); color:var(--text);}
+  .btn.bad{background:var(--bad);}
+  .btn:disabled{opacity:.4; cursor:not-allowed; transform:none;}
+  .row{display:flex; gap:16px; flex-wrap:wrap;}
+  .col{flex:1; min-width:220px;}
+
+  /* ---- Flow diagrams (Modules 1 & 2) ---- */
+  .flow{display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; padding:20px 0;}
+  .node{
+    background:var(--panel2); border:2px solid var(--border); border-radius:12px;
+    padding:16px 20px; cursor:pointer; text-align:center; min-width:120px; transition:.2s;
+  }
+  .node:hover, .node.active{border-color:var(--accent); background:rgba(52,87,234,.08); transform:translateY(-2px);}
+  .node .label{font-weight:600;}
+  .node .sub{font-size:.75rem; color:var(--muted);}
+  .arrow{color:var(--muted); font-size:1.4rem;}
+  .explain-panel{
+    margin-top:16px; background:var(--panel2); border:1px solid var(--border); border-radius:10px;
+    padding:16px 20px; min-height:60px;
+  }
+
+  /* ---- Module 3: ERD schema explorer ---- */
+  .erd-legend{display:flex; gap:20px; align-items:center; font-size:.8rem; color:var(--muted); margin-bottom:14px; flex-wrap:wrap;}
+  .erd-legend .dot{display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:middle;}
+  .erd-legend .dot.pk{background:var(--key);}
+  .erd-legend .dot.fk{background:var(--accent);}
+  .erd-scroll{overflow-x:auto; padding:10px 2px;}
+  .erd-canvas{position:relative; min-width:760px;}
+  #erdSvg{position:absolute; top:0; left:0; z-index:1; pointer-events:none;}
+  .erd-grid{
+    position:relative; z-index:2; display:grid; grid-template-columns:repeat(3, minmax(210px,1fr));
+    grid-template-areas:"c1 c2 c3" "c4 fact c5" ". c6 .";
+    gap:74px 50px; align-items:start; min-width:760px;
+  }
+  .erd-table{background:var(--panel); border:1.5px solid var(--border); border-radius:10px; overflow:hidden; transition:.2s; cursor:pointer;}
+  .erd-table.active{border-color:var(--accent); box-shadow:0 0 0 3px rgba(52,87,234,.14);}
+  .erd-table.dim{opacity:.35;}
+  .erd-table[data-table="FactOnlineSales"]{border-color:var(--accent); background:linear-gradient(180deg, rgba(52,87,234,.07), var(--panel) 46px);}
+  .erd-head{background:var(--panel2); font-weight:700; font-size:.85rem; padding:9px 12px; border-bottom:1px solid var(--border);}
+  .erd-row{display:flex; justify-content:space-between; gap:10px; padding:5px 12px; font-size:.74rem; font-family:Consolas,monospace; border-bottom:1px solid var(--border);}
+  .erd-row:last-child{border-bottom:none;}
+  .erd-row .ct{color:var(--muted);}
+  .erd-row.pk{color:var(--key); font-weight:700; background:rgba(154,103,0,.07);}
+  .erd-row.fk{color:var(--accent);}
+  .erd-link{fill:none; stroke:var(--border); stroke-width:1.6; transition:.2s;}
+  .erd-link.highlight{stroke:var(--accent); stroke-width:2.6;}
+  .erd-dot.pk{fill:var(--key);}
+  .erd-dot.fk{fill:var(--accent);}
+
+  /* ---- Module 4: file-based reality (tabs) ---- */
+  .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;}
+  .tab-btn{background:var(--panel2); border:1px solid var(--border); color:var(--muted); padding:8px 16px; border-radius:20px; font-size:.82rem; cursor:pointer; font-weight:600;}
+  .tab-btn.active{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .tab-panel{display:none;}
+  .tab-panel.show{display:block;}
+  .compare{display:flex; gap:20px; flex-wrap:wrap;}
+  .compare .panel{
+    flex:1; min-width:280px; background:var(--panel2); border:1px solid var(--border);
+    border-radius:12px; padding:16px; overflow-x:auto;
+  }
+  .compare h4{margin:0 0 10px; font-size:.9rem; text-transform:uppercase; letter-spacing:.04em;}
+  table.mini{border-collapse:collapse; width:100%; font-size:.78rem; font-family:Consolas,monospace;}
+  table.mini th, table.mini td{border:1px solid var(--border); padding:6px 8px; text-align:left; white-space:nowrap;}
+  table.mini th{color:var(--muted); font-weight:600;}
+  table.mini td.hit{transition:.4s;}
+  table.mini td.hit.flash{background:var(--accent2); color:#fff;}
+  table.mini tr.scanned{background:rgba(52,87,234,.07);}
+  table.mini tr.match-hit td{background:rgba(26,127,55,.14);}
+  .relational-tables{display:flex; flex-direction:column; gap:14px;}
+  .sql-snippet{background:#fff; border:1px solid var(--border); border-radius:8px; padding:12px; font-family:Consolas,monospace; font-size:.74rem; white-space:pre-wrap; color:var(--text);}
+  .clerk-tracks{display:flex; gap:20px; margin-top:20px; flex-wrap:wrap;}
+  .clerk-track{flex:1; min-width:220px; background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:12px; min-height:70px;}
+  .ct-label{font-weight:700; font-size:.8rem; margin-bottom:8px;}
+  .ct-step{font-size:.76rem; font-family:Consolas,monospace; padding:4px 0; border-bottom:1px dashed var(--border); opacity:0; animation:fadeIn .3s forwards;}
+  @keyframes fadeIn{to{opacity:1;}}
+  .file-value{margin-top:16px; font-size:1rem; padding:10px 14px; background:var(--panel2); border-radius:8px; display:inline-block;}
+  .file-value.bad{background:rgba(207,34,46,.1); color:var(--bad); font-weight:700;}
+
+  /* ---- Module 5: row vs columnar storage ---- */
+  .block-strip{display:flex; flex-wrap:wrap; gap:3px; padding:14px; background:var(--panel2); border-radius:10px; margin-top:8px;}
+  .block-cell{
+    width:66px; height:42px; border-radius:6px; font-size:.66rem; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; background:#fff; border:1px solid var(--border);
+    transition:.2s; text-align:center;
+  }
+  .block-cell .bc-col{font-size:.58rem; color:var(--muted);}
+  .block-cell.touched{border-color:var(--accent2); background:rgba(179,86,13,.14);}
+  .block-cell.used{border-color:var(--good); background:rgba(26,127,55,.22); font-weight:700;}
+  .block-cell.group-end{margin-right:14px;}
+
+  /* ---- Transactions ---- */
+  .steps{display:flex; flex-direction:column; gap:10px; margin-top:16px;}
+  .step{
+    background:var(--panel2); border:1px solid var(--border); border-left:4px solid var(--border);
+    border-radius:8px; padding:12px 16px; font-size:.9rem; opacity:.5; transition:.3s;
+  }
+  .step.active{opacity:1; border-left-color:var(--accent);}
+  .step.done{opacity:1; border-left-color:var(--good);}
+  .step.failed{opacity:1; border-left-color:var(--bad); background:rgba(207,34,46,.07);}
+  .status-line{margin-top:14px; font-weight:600;}
+  .status-line.commit{color:var(--good);}
+  .status-line.rollback{color:var(--bad);}
+
+  /* ---- DDL vs DML sort + pipeline ---- */
+  .chip-bank{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+  .chip{
+    background:var(--panel2); border:1px solid var(--border); border-radius:20px;
+    padding:8px 16px; font-family:Consolas,monospace; font-size:.85rem; cursor:pointer;
+    user-select:none; transition:.15s;
+  }
+  .chip:hover{border-color:var(--accent);}
+  .chip.placed-ddl{background:rgba(52,87,234,.14); border-color:var(--accent);}
+  .chip.placed-dml{background:rgba(179,86,13,.14); border-color:var(--accent2);}
+  .buckets{display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;}
+  .bucket{
+    flex:1; min-width:240px; min-height:90px; border:2px dashed var(--border); border-radius:12px;
+    padding:14px; background:var(--panel);
+  }
+  .bucket h4{margin:0 0 8px; font-size:.85rem; text-transform:uppercase;}
+  .bucket.ddl h4{color:var(--accent);}
+  .bucket.dml h4{color:var(--accent2);}
+  .bucket .chip{margin:4px;}
+  .pipeline{display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin-top:36px;}
+  .pipe-node{
+    background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:12px 16px;
+    text-align:center; font-size:.82rem; min-width:110px;
+  }
+  .pipe-node .t{font-weight:600;}
+
+  footer{text-align:center; padding:30px; color:var(--muted); font-size:.8rem;}
+  .hint{font-size:.8rem; color:var(--muted); margin-top:8px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>SQL Foundations, Visually</h1>
+  <p>An interactive walkthrough of Section 1 of SQL-S8: Database &amp; SQL Foundations — built around the ContosoRetailDW database used in your study guide.</p>
+</div>
+
+<nav>
+  <a href="#m0">1. From Files to Databases</a>
+  <a href="#m1">2. What is SQL?</a>
+  <a href="#m2">3. Schema (ERD)</a>
+  <a href="#m3">4. File-Based Reality</a>
+  <a href="#m3b">5. Row vs Columnar</a>
+  <a href="#m4">6. Transactions</a>
+  <a href="#m5">7. DDL vs DML</a>
+</nav>
+
+<!-- ============ MODULE 0: HISTORICAL TIMELINE ============ -->
+<section id="m0">
+  <span class="tag">Module 1</span>
+  <h2>From Files to Databases: a short history</h2>
+  <p class="muted">Before relational databases existed, applications stored data in plain files. Click through the timeline to see how that broke down — and how we got to systems like the one behind this course.</p>
+  <div class="card">
+    <div class="flow" id="flowHist">
+      <div class="node active" data-era="files">
+        <div class="label">📁 1950s–60s</div>
+        <div class="sub">File-based systems</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node" data-era="problems">
+        <div class="label">⚠️ Late 1960s</div>
+        <div class="sub">Cracks show</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node" data-era="codd">
+        <div class="label">💡 1970</div>
+        <div class="sub">The relational model</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node" data-era="sql">
+        <div class="label">🏗 1970s–80s</div>
+        <div class="sub">RDBMS &amp; SQL emerge</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node" data-era="today">
+        <div class="label">🖥 Today</div>
+        <div class="sub">Modern DBMS</div>
+      </div>
+    </div>
+    <div class="explain-panel" id="explainHist"></div>
+  </div>
+</section>
+
+<!-- ============ MODULE 1: WHAT IS SQL ============ -->
+<section id="m1">
+  <span class="tag">Module 2</span>
+  <h2>What is SQL, and how does it fit with a DBMS?</h2>
+  <p class="muted">Click each box to see how a request travels from you to the actual data.</p>
+  <div class="card">
+    <div class="flow" id="flow1">
+      <div class="node" data-key="user">
+        <div class="label">🧑 You</div>
+        <div class="sub">the analyst</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node" data-key="sql">
+        <div class="label">SQL</div>
+        <div class="sub">the language</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node" data-key="dbms">
+        <div class="label">DBMS</div>
+        <div class="sub">e.g. SQL Server</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node" data-key="db">
+        <div class="label">🗄 Database</div>
+        <div class="sub">ContosoRetailDW</div>
+      </div>
+    </div>
+    <div class="explain-panel" id="explain1">Click a box above to see what it does.</div>
+  </div>
+</section>
+
+<!-- ============ MODULE 2: ERD SCHEMA EXPLORER ============ -->
+<section id="m2">
+  <span class="tag">Module 3</span>
+  <h2>Databases, DBMS, and Schema</h2>
+  <p class="muted">This is the actual shape (schema) of the database behind your course, drawn as an entity-relationship diagram: one central fact table, surrounded by dimension tables it links to by key. Click a table to highlight how it connects.</p>
+  <div class="card">
+    <div class="erd-legend">
+      <span><i class="dot pk"></i>Primary Key</span>
+      <span><i class="dot fk"></i>Foreign Key</span>
+      <span>Click any table to highlight its relationships</span>
+    </div>
+    <div class="erd-scroll">
+      <div class="erd-canvas" id="erdCanvas">
+        <svg id="erdSvg"></svg>
+        <div class="erd-grid" id="erdGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODULE 3: FILE-BASED REALITY ============ -->
+<section id="m3">
+  <span class="tag">Module 4</span>
+  <h2>The Reality of File-Based Systems</h2>
+  <p class="muted">Three simulations of what actually goes wrong with plain files — the same problems the relational model was invented to solve.</p>
+  <div class="card">
+    <div class="tabs" id="fbTabs">
+      <button class="tab-btn active" data-tab="dup">Duplication &amp; Inconsistency</button>
+      <button class="tab-btn" data-tab="join">No Relationships</button>
+      <button class="tab-btn" data-tab="lock">No Concurrency Control</button>
+    </div>
+
+    <!-- Tab 1: Duplication -->
+    <div class="tab-panel show" id="tabDup">
+      <p class="muted">Same scenario, two designs. Press the button and watch what it takes to update <strong>one customer's phone number</strong> in each.</p>
+      <div style="text-align:center; margin-bottom:10px;">
+        <button class="btn" id="runUpdate">Update Priya Shah's phone number</button>
+        <button class="btn secondary" id="resetUpdate">Reset</button>
+      </div>
+      <div class="compare">
+        <div class="panel">
+          <h4 style="color:var(--bad);">Flat file (no structure)</h4>
+          <table class="mini" id="flatTable">
+            <thead><tr><th>OrderID</th><th>CustomerName</th><th>Phone</th><th>Product</th></tr></thead>
+            <tbody>
+              <tr><td>1001</td><td class="hit">Priya Shah</td><td class="hit">555-0142</td><td>Bike Helmet</td></tr>
+              <tr><td>1002</td><td>Marco Diaz</td><td>555-0198</td><td>Water Bottle</td></tr>
+              <tr><td>1003</td><td class="hit">Priya Shah</td><td class="hit">555-0142</td><td>Gloves</td></tr>
+              <tr><td>1004</td><td class="hit">Priya Shah</td><td class="hit">555-0142</td><td>Bike Lock</td></tr>
+              <tr><td>1005</td><td>Marco Diaz</td><td>555-0198</td><td>Helmet</td></tr>
+            </tbody>
+          </table>
+          <p class="hint">Every row that mentions Priya has her phone number copied in. All 3 need editing — and it's easy to miss one, leaving inconsistent data.</p>
+        </div>
+        <div class="panel">
+          <h4 style="color:var(--good);">Relational (normalized)</h4>
+          <div class="relational-tables">
+            <div>
+              <strong style="font-size:.8rem;">DimCustomer</strong>
+              <table class="mini">
+                <thead><tr><th>CustomerKey</th><th>Name</th><th>Phone</th></tr></thead>
+                <tbody>
+                  <tr><td>7</td><td class="hit">Priya Shah</td><td class="hit">555-0142</td></tr>
+                  <tr><td>12</td><td>Marco Diaz</td><td>555-0198</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <strong style="font-size:.8rem;">FactOnlineSales</strong>
+              <table class="mini">
+                <thead><tr><th>OrderID</th><th>CustomerKey</th><th>Product</th></tr></thead>
+                <tbody>
+                  <tr><td>1001</td><td>7</td><td>Bike Helmet</td></tr>
+                  <tr><td>1002</td><td>12</td><td>Water Bottle</td></tr>
+                  <tr><td>1003</td><td>7</td><td>Gloves</td></tr>
+                  <tr><td>1004</td><td>7</td><td>Bike Lock</td></tr>
+                  <tr><td>1005</td><td>12</td><td>Helmet</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="hint">The phone number is stored once, in DimCustomer. Every sales row just points to CustomerKey 7 — update one field, done.</p>
+        </div>
+      </div>
+      <div id="updateResult" class="status-line" style="text-align:center;"></div>
+    </div>
+
+    <!-- Tab 2: No relationships -->
+    <div class="tab-panel" id="tabJoin">
+      <p class="muted">Question: <strong>"What's Priya Shah's total spend at the Downtown store?"</strong> Watch what it takes to answer this in each design.</p>
+      <div class="compare">
+        <div class="panel">
+          <h4 style="color:var(--bad);">Flat file — manual cross-reference</h4>
+          <table class="mini" id="ordersTable">
+            <thead><tr><th>#</th><th>Customer</th><th>Store</th><th>Amount</th></tr></thead>
+            <tbody>
+              <tr data-match="1" data-amt="45"><td>1</td><td>Priya Shah</td><td>Downtown</td><td>$45</td></tr>
+              <tr data-match="0" data-amt="12"><td>2</td><td>Marco Diaz</td><td>Uptown</td><td>$12</td></tr>
+              <tr data-match="0" data-amt="20"><td>3</td><td>Priya Shah</td><td>Uptown</td><td>$20</td></tr>
+              <tr data-match="0" data-amt="30"><td>4</td><td>Sara Lee</td><td>Downtown</td><td>$30</td></tr>
+              <tr data-match="1" data-amt="18"><td>5</td><td>Priya Shah</td><td>Downtown</td><td>$18</td></tr>
+              <tr data-match="0" data-amt="22"><td>6</td><td>Marco Diaz</td><td>Downtown</td><td>$22</td></tr>
+              <tr data-match="0" data-amt="15"><td>7</td><td>Priya Shah</td><td>Westside</td><td>$15</td></tr>
+              <tr data-match="1" data-amt="27"><td>8</td><td>Priya Shah</td><td>Downtown</td><td>$27</td></tr>
+            </tbody>
+          </table>
+          <button class="btn" id="runManualScan" style="margin-top:10px;">Scan file row by row</button>
+          <p class="hint" id="scanStatus">Records scanned: 0 / 8 · Running total: $0</p>
+        </div>
+        <div class="panel">
+          <h4 style="color:var(--good);">Relational — one JOIN query</h4>
+          <pre class="sql-snippet">SELECT SUM(SalesAmount)
+FROM FactOnlineSales f
+JOIN DimCustomer c ON f.CustomerKey = c.CustomerKey
+JOIN DimStore   s ON f.StoreKey    = s.StoreKey
+WHERE c.Name = 'Priya Shah' AND s.StoreName = 'Downtown';</pre>
+          <button class="btn" id="runQuery" style="margin-top:10px;">Run query</button>
+          <p class="hint" id="queryStatus">Not run yet.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Concurrency -->
+    <div class="tab-panel" id="tabLock">
+      <p class="muted">Two clerks both update the stock count for <strong>Bike Helmet</strong> (starting at 50) at the same time.</p>
+      <div class="row">
+        <div class="col"><button class="btn bad" id="runRace">Simulate on a flat file (no locking)</button></div>
+        <div class="col"><button class="btn" id="runSafe">Simulate on a DBMS (with locking)</button></div>
+      </div>
+      <div class="clerk-tracks">
+        <div class="clerk-track">
+          <div class="ct-label">Clerk A</div>
+          <div class="ct-steps" id="clerkA"></div>
+        </div>
+        <div class="clerk-track">
+          <div class="ct-label">Clerk B</div>
+          <div class="ct-steps" id="clerkB"></div>
+        </div>
+      </div>
+      <div class="file-value" id="stockValue">Stock on file: <strong>—</strong></div>
+      <div class="status-line" id="lockStatus"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODULE 3b: ROW VS COLUMNAR ============ -->
+<section id="m3b">
+  <span class="tag">Module 5</span>
+  <h2>A Modern Twist: Row-based vs. Columnar Storage</h2>
+  <p class="muted">Relational databases still need to decide <em>how</em> to physically lay data out on disk. Traditional systems store data row by row; modern analytical warehouses increasingly store it column by column. Toggle the layout and run a query to see why it matters.</p>
+  <div class="card">
+    <table class="mini" id="rcTable" style="margin-bottom:20px;">
+      <thead><tr><th>OrderID</th><th>Product</th><th>Qty</th><th>Amount</th><th>Store</th></tr></thead>
+      <tbody>
+        <tr><td>1001</td><td>Bike Helmet</td><td>1</td><td>45</td><td>Downtown</td></tr>
+        <tr><td>1002</td><td>Water Bottle</td><td>2</td><td>12</td><td>Uptown</td></tr>
+        <tr><td>1003</td><td>Gloves</td><td>1</td><td>18</td><td>Downtown</td></tr>
+        <tr><td>1004</td><td>Bike Lock</td><td>1</td><td>25</td><td>Westside</td></tr>
+        <tr><td>1005</td><td>Helmet</td><td>3</td><td>40</td><td>Uptown</td></tr>
+        <tr><td>1006</td><td>Bike Helmet</td><td>1</td><td>45</td><td>Downtown</td></tr>
+      </tbody>
+    </table>
+
+    <div class="row" style="align-items:flex-start;">
+      <div class="col">
+        <strong style="font-size:.82rem;">Physical layout:</strong><br/><br/>
+        <button class="btn secondary" id="modeRow">Row-based</button>
+        <button class="btn secondary" id="modeCol">Columnar</button>
+      </div>
+      <div class="col">
+        <strong style="font-size:.82rem;">Run a query:</strong><br/><br/>
+        <button class="btn" id="qAgg">SELECT AVG(Amount)</button>
+        <button class="btn" id="qLookup">Get full row for Order #1002</button>
+      </div>
+    </div>
+
+    <p class="hint" id="rcModeLabel" style="margin-top:16px;">Current layout: <strong>Row-based</strong> — each block on disk holds one full row.</p>
+    <div class="block-strip" id="blockStrip"></div>
+    <p class="hint" id="rcResult">Pick a layout and run a query to see how many disk blocks get touched.</p>
+  </div>
+</section>
+
+<!-- ============ MODULE 4: TRANSACTIONS ============ -->
+<section id="m4">
+  <span class="tag">Module 6</span>
+  <h2>Transactions</h2>
+  <p class="muted">Placing an order means two things must happen together: insert the order, and reduce inventory. A transaction guarantees both happen, or neither does.</p>
+  <div class="card">
+    <div class="row">
+      <div class="col">
+        <button class="btn" id="runSuccess">▶ Run transaction (success)</button>
+      </div>
+      <div class="col">
+        <button class="btn bad" id="runFail">▶ Run transaction (simulate failure)</button>
+      </div>
+    </div>
+    <div class="steps" id="txSteps">
+      <div class="step" data-step="0">BEGIN TRANSACTION</div>
+      <div class="step" data-step="1">INSERT INTO FactOnlineSales (new order row)</div>
+      <div class="step" data-step="2">UPDATE DimProduct SET StockQty = StockQty - 1</div>
+      <div class="step" data-step="3">COMMIT / ROLLBACK</div>
+    </div>
+    <div class="status-line" id="txStatus"></div>
+  </div>
+</section>
+
+<!-- ============ MODULE 5: DDL VS DML ============ -->
+<section id="m5">
+  <span class="tag">Module 7</span>
+  <h2>DDL vs. DML — and where SQL fits</h2>
+  <p class="muted">Click each command to sort it: does it change the <em>structure</em> of the database (DDL), or the <em>data</em> inside it (DML)?</p>
+  <div class="card">
+    <div class="chip-bank" id="chipBank">
+      <div class="chip" data-cmd="CREATE TABLE" data-answer="ddl">CREATE TABLE</div>
+      <div class="chip" data-cmd="ALTER TABLE" data-answer="ddl">ALTER TABLE</div>
+      <div class="chip" data-cmd="DROP TABLE" data-answer="ddl">DROP TABLE</div>
+      <div class="chip" data-cmd="TRUNCATE TABLE" data-answer="ddl">TRUNCATE TABLE</div>
+      <div class="chip" data-cmd="SELECT" data-answer="dml">SELECT</div>
+      <div class="chip" data-cmd="INSERT INTO" data-answer="dml">INSERT INTO</div>
+      <div class="chip" data-cmd="UPDATE" data-answer="dml">UPDATE</div>
+      <div class="chip" data-cmd="DELETE" data-answer="dml">DELETE</div>
+    </div>
+    <div class="buckets">
+      <div class="bucket ddl" id="bucketDdl"><h4>DDL — defines structure</h4></div>
+      <div class="bucket dml" id="bucketDml"><h4>DML — manipulates data</h4></div>
+    </div>
+    <p class="hint">Click a command to place it. Click it again (in a bucket) to send it back.</p>
+
+    <h3 style="margin-top:36px;">SQL's place in the data analysis workflow</h3>
+    <div class="pipeline">
+      <div class="pipe-node"><div class="t">Raw Data</div><div class="muted">unstructured / incoming</div></div>
+      <div class="arrow">→</div>
+      <div class="pipe-node"><div class="t">DDL</div><div class="muted">defines tables/schema</div></div>
+      <div class="arrow">→</div>
+      <div class="pipe-node"><div class="t">DML</div><div class="muted">loads &amp; maintains data</div></div>
+      <div class="arrow">→</div>
+      <div class="pipe-node"><div class="t">SQL Queries</div><div class="muted">SELECT, WHERE, GROUP BY…</div></div>
+      <div class="arrow">→</div>
+      <div class="pipe-node"><div class="t">Analysis &amp; Reporting</div><div class="muted">the actual insight</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>SQL-S8 · Database &amp; SQL Foundations · built to accompany your Combined Lecture Agenda</footer>
+
+<script>
+// ================= Module 0: Historical Timeline =================
+const eraExplain = {
+  files: "Early business applications (1950s–60s) each stored their own data in flat files — think punch cards, then plain sequential files. A payroll program had its own employee file; a shipping program had its own, separate customer file, often repeating the same customer's details.",
+  problems: "By the late 1960s, this fell apart at scale: the same data was duplicated across many files (a customer's address might exist in 5 places), there was no way to enforce that data was even valid, no way to relate one file to another, and two programs editing data at once could corrupt it. Every new report meant new custom code.",
+  codd: "In 1970, IBM researcher Edgar F. Codd published \"A Relational Model of Data for Large Shared Data Banks.\" His idea: store data in tables (relations) made of rows and columns, and link tables through shared key values instead of duplicating data everywhere.",
+  sql: "Through the 1970s–80s, IBM built System R to test Codd's model, which led to SQL as the query language for it. Oracle shipped the first commercial relational database in 1979; SQL Server, DB2 and others followed. SQL was standardized by ANSI in 1986, becoming the common language across vendors.",
+  today: "Modern DBMS platforms (SQL Server, PostgreSQL, MySQL, Oracle, etc.) are the direct descendants of that 1970 idea — enforcing structure, relationships, and consistency automatically. ContosoRetailDW, the database used throughout this course, is a modern example: dozens of linked tables instead of one giant duplicated file."
+};
+document.querySelectorAll('#flowHist .node').forEach(n=>{
+  n.addEventListener('click', ()=>{
+    document.querySelectorAll('#flowHist .node').forEach(x=>x.classList.remove('active'));
+    n.classList.add('active');
+    document.getElementById('explainHist').textContent = eraExplain[n.dataset.era];
+  });
+});
+document.getElementById('explainHist').textContent = eraExplain.files;
+
+// ================= Module 1: What is SQL =================
+const explain1 = {
+  user: "You write a request in plain SQL — e.g. \"show me total sales by store\" — without needing to know how the data is physically stored on disk.",
+  sql: "SQL (Structured Query Language) is just the language. It's a standard way to describe *what* you want, not *how* to get it.",
+  dbms: "The DBMS (e.g. SQL Server, PostgreSQL) is the software that receives your SQL, figures out the most efficient way to execute it, and manages storage, security, and concurrent users.",
+  db: "The database itself is the organized collection of tables that actually holds the data — in this course, ContosoRetailDW."
+};
+document.querySelectorAll('#flow1 .node').forEach(n=>{
+  n.addEventListener('click', ()=>{
+    document.querySelectorAll('#flow1 .node').forEach(x=>x.classList.remove('active'));
+    n.classList.add('active');
+    document.getElementById('explain1').textContent = explain1[n.dataset.key];
+  });
+});
+
+// ================= Module 2: ERD Schema Explorer =================
+const dimData = {
+  DimCustomer: [["CustomerKey","int, PK"],["FirstName","nvarchar"],["LastName","nvarchar"],["Phone","nvarchar"],["City","nvarchar"]],
+  DimProduct: [["ProductKey","int, PK"],["ProductName","nvarchar"],["Category","nvarchar"],["UnitPrice","money"]],
+  DimStore: [["StoreKey","int, PK"],["StoreName","nvarchar"],["Region","nvarchar"]],
+  DimPromotion: [["PromotionKey","int, PK"],["PromotionName","nvarchar"],["DiscountPct","decimal"]],
+  DimCurrency: [["CurrencyKey","int, PK"],["CurrencyName","nvarchar"],["CurrencyCode","char"]],
+  DimDate: [["DateKey","int, PK"],["FullDate","date"],["MonthName","nvarchar"],["CalendarYear","int"]],
+};
+const factCols = [["OnlineSalesKey","int, PK"],["CustomerKey","int, FK"],["ProductKey","int, FK"],
+  ["StoreKey","int, FK"],["PromotionKey","int, FK"],["CurrencyKey","int, FK"],
+  ["DateKey","int, FK"],["SalesAmount","money"],["SalesQuantity","int"]];
+
+function buildErdTable(tableName, cols, gridArea){
+  const box = document.createElement('div');
+  box.className = 'erd-table';
+  box.id = 'tbl-' + tableName;
+  box.style.gridArea = gridArea;
+  box.dataset.table = tableName;
+  const head = document.createElement('div');
+  head.className = 'erd-head';
+  head.textContent = tableName;
+  box.appendChild(head);
+  cols.forEach(([name, type])=>{
+    const row = document.createElement('div');
+    row.className = 'erd-row';
+    row.id = 'row-' + tableName + '-' + name;
+    if(type.includes('PK')) row.classList.add('pk');
+    if(type.includes('FK')) row.classList.add('fk');
+    row.innerHTML = `<span class="cn">${name}</span><span class="ct">${type.split(',')[0]}</span>`;
+    box.appendChild(row);
+  });
+  document.getElementById('erdGrid').appendChild(box);
+}
+buildErdTable('FactOnlineSales', factCols, 'fact');
+buildErdTable('DimCustomer', dimData.DimCustomer, 'c1');
+buildErdTable('DimProduct', dimData.DimProduct, 'c2');
+buildErdTable('DimStore', dimData.DimStore, 'c3');
+buildErdTable('DimPromotion', dimData.DimPromotion, 'c4');
+buildErdTable('DimCurrency', dimData.DimCurrency, 'c5');
+buildErdTable('DimDate', dimData.DimDate, 'c6');
+
+const erdRelations = [
+  {dim:'DimCustomer', key:'CustomerKey', factSide:'top', dimSide:'bottom', xNudge:-90},
+  {dim:'DimProduct', key:'ProductKey', factSide:'top', dimSide:'bottom', xNudge:0},
+  {dim:'DimStore', key:'StoreKey', factSide:'top', dimSide:'bottom', xNudge:90},
+  {dim:'DimPromotion', key:'PromotionKey', factSide:'left', dimSide:'right'},
+  {dim:'DimCurrency', key:'CurrencyKey', factSide:'right', dimSide:'left'},
+  {dim:'DimDate', key:'DateKey', factSide:'bottom', dimSide:'top'},
+];
+
+function anchorPoint(rowId, boxId, side, canvasRect, xNudge, yNudge){
+  const rowEl = document.getElementById(rowId);
+  const boxEl = document.getElementById(boxId);
+  const r = rowEl.getBoundingClientRect();
+  const b = boxEl.getBoundingClientRect();
+  let x,y;
+  if(side==='left'){ x=b.left; y=r.top+r.height/2; }
+  else if(side==='right'){ x=b.right; y=r.top+r.height/2; }
+  else if(side==='top'){ x=r.left+r.width/2; y=b.top; }
+  else { x=r.left+r.width/2; y=b.bottom; }
+  return {x: x - canvasRect.left + (xNudge||0), y: y - canvasRect.top + (yNudge||0)};
+}
+
+function drawErd(){
+  const canvas = document.getElementById('erdCanvas');
+  const svg = document.getElementById('erdSvg');
+  const cRect = canvas.getBoundingClientRect();
+  svg.setAttribute('width', canvas.scrollWidth);
+  svg.setAttribute('height', canvas.scrollHeight);
+  svg.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+  erdRelations.forEach(rel=>{
+    const p1 = anchorPoint('row-FactOnlineSales-'+rel.key, 'tbl-FactOnlineSales', rel.factSide, cRect, rel.xNudge, rel.yNudge);
+    const p2 = anchorPoint('row-'+rel.dim+'-'+rel.key, 'tbl-'+rel.dim, rel.dimSide, cRect, 0, 0);
+    let c1x=p1.x, c1y=p1.y, c2x=p2.x, c2y=p2.y;
+    const off=55;
+    if(rel.factSide==='left') c1x -= off; if(rel.factSide==='right') c1x += off;
+    if(rel.factSide==='top') c1y -= off; if(rel.factSide==='bottom') c1y += off;
+    if(rel.dimSide==='left') c2x -= off; if(rel.dimSide==='right') c2x += off;
+    if(rel.dimSide==='top') c2y -= off; if(rel.dimSide==='bottom') c2y += off;
+    const path = document.createElementNS(ns,'path');
+    path.setAttribute('d', `M ${p1.x} ${p1.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${p2.x} ${p2.y}`);
+    path.setAttribute('class','erd-link');
+    path.dataset.dim = rel.dim;
+    svg.appendChild(path);
+    [[p1,'fk'],[p2,'pk']].forEach(([pt,cls])=>{
+      const c = document.createElementNS(ns,'circle');
+      c.setAttribute('cx',pt.x); c.setAttribute('cy',pt.y); c.setAttribute('r',4);
+      c.setAttribute('class','erd-dot '+cls);
+      svg.appendChild(c);
+    });
+  });
+}
+window.addEventListener('load', drawErd);
+let erdResizeT;
+window.addEventListener('resize', ()=>{ clearTimeout(erdResizeT); erdResizeT = setTimeout(drawErd, 150); });
+setTimeout(drawErd, 50);
+
+document.querySelectorAll('.erd-table').forEach(box=>{
+  box.addEventListener('click', ()=>{
+    const wasActive = box.classList.contains('active');
+    document.querySelectorAll('.erd-table').forEach(b=>b.classList.remove('active','dim'));
+    document.querySelectorAll('.erd-link').forEach(p=>p.classList.remove('highlight'));
+    if(wasActive) return;
+    box.classList.add('active');
+    const t = box.dataset.table;
+    if(t === 'FactOnlineSales'){
+      document.querySelectorAll('.erd-link').forEach(p=>p.classList.add('highlight'));
+    } else {
+      document.querySelectorAll(`.erd-link[data-dim="${t}"]`).forEach(p=>p.classList.add('highlight'));
+      document.getElementById('tbl-FactOnlineSales').classList.add('active');
+      document.querySelectorAll('.erd-table').forEach(b=>{
+        if(b !== box && b.dataset.table !== 'FactOnlineSales') b.classList.add('dim');
+      });
+    }
+  });
+});
+
+// ================= Module 3, Tab 1: Duplication =================
+document.getElementById('runUpdate').addEventListener('click', ()=>{
+  document.querySelectorAll('#flatTable td.hit').forEach((c,i)=>{
+    setTimeout(()=>{ c.classList.add('flash'); }, i*180);
+  });
+  document.querySelectorAll('.relational-tables td.hit').forEach((c,i)=>{
+    setTimeout(()=>{ c.classList.add('flash'); }, i*180);
+  });
+  setTimeout(()=>{
+    document.getElementById('updateResult').innerHTML =
+      '<span style="color:var(--bad)">Flat file: 6 fields edited across 3 rows.</span> &nbsp;|&nbsp; ' +
+      '<span style="color:var(--good)">Relational: 2 fields edited in 1 row.</span>';
+  }, 900);
+});
+document.getElementById('resetUpdate').addEventListener('click', ()=>{
+  document.querySelectorAll('td.flash').forEach(c=>c.classList.remove('flash'));
+  document.getElementById('updateResult').textContent = '';
+});
+
+// ================= Module 3, Tab 2: No Relationships =================
+function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+async function manualScan(){
+  const rows = document.querySelectorAll('#ordersTable tbody tr');
+  rows.forEach(r=>r.classList.remove('scanned','match-hit'));
+  let total = 0, matches = 0;
+  for(let i=0;i<rows.length;i++){
+    rows[i].classList.add('scanned');
+    await sleep(230);
+    if(rows[i].dataset.match === '1'){
+      total += Number(rows[i].dataset.amt);
+      matches++;
+      rows[i].classList.add('match-hit');
+    }
+    document.getElementById('scanStatus').innerHTML =
+      `Records scanned: ${i+1} / ${rows.length} · Matches found: ${matches} · Running total: $${total}`;
+  }
+  document.getElementById('scanStatus').innerHTML += ' — <strong>done (8 manual checks).</strong>';
+}
+document.getElementById('runManualScan').addEventListener('click', manualScan);
+document.getElementById('runQuery').addEventListener('click', ()=>{
+  document.getElementById('queryStatus').innerHTML = 'Result: <strong>$90</strong> — 1 query, instant, no manual scanning.';
+});
+
+// ================= Module 3, Tab 3: Concurrency =================
+function addStep(containerId, text, delay){
+  return new Promise(res=>{
+    setTimeout(()=>{
+      const el = document.createElement('div');
+      el.className = 'ct-step';
+      el.textContent = text;
+      document.getElementById(containerId).appendChild(el);
+      res();
+    }, delay);
+  });
+}
+function clearClerkTracks(){
+  document.getElementById('clerkA').innerHTML = '';
+  document.getElementById('clerkB').innerHTML = '';
+  document.getElementById('lockStatus').textContent = '';
+  document.getElementById('lockStatus').className = 'status-line';
+}
+function setStock(v, bad){
+  const el = document.getElementById('stockValue');
+  el.innerHTML = 'Stock on file: <strong>' + v + '</strong>';
+  el.className = 'file-value' + (bad ? ' bad' : '');
+}
+async function raceSim(){
+  clearClerkTracks(); setStock(50);
+  await Promise.all([addStep('clerkA','Reads stock = 50', 500), addStep('clerkB','Reads stock = 50', 500)]);
+  await Promise.all([addStep('clerkA','Sells 3 → wants to write 47', 600), addStep('clerkB','Sells 5 → wants to write 45', 600)]);
+  await addStep('clerkA','Writes 47 to file', 500);
+  setStock(47);
+  await addStep('clerkB','Writes 45 to file (overwrites!)', 500);
+  setStock(45, true);
+  const st = document.getElementById('lockStatus');
+  st.textContent = "Lost update! Correct stock should be 42 (50 − 3 − 5), but the file now shows 45 — Clerk A's sale was silently erased.";
+  st.className = 'status-line rollback';
+}
+async function safeSim(){
+  clearClerkTracks(); setStock(50);
+  await addStep('clerkA','Locks record, reads 50', 500);
+  await addStep('clerkB','Tries to read... BLOCKED (waiting for lock)', 500);
+  await addStep('clerkA','Sells 3 → writes 47, commits, unlocks', 700);
+  setStock(47);
+  await addStep('clerkB','Lock acquired, reads fresh value 47', 600);
+  await addStep('clerkB','Sells 5 → writes 42, commits', 700);
+  setStock(42);
+  const st = document.getElementById('lockStatus');
+  st.textContent = "Correct! The DBMS made Clerk B wait, so their update was based on the fresh value. Final stock is 42 — nothing lost.";
+  st.className = 'status-line commit';
+}
+document.getElementById('runRace').addEventListener('click', raceSim);
+document.getElementById('runSafe').addEventListener('click', safeSim);
+
+// ================= Module 3: Tab switching =================
+const tabMap = {dup:'tabDup', join:'tabJoin', lock:'tabLock'};
+document.querySelectorAll('#fbTabs .tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#fbTabs .tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('show'));
+    document.getElementById(tabMap[btn.dataset.tab]).classList.add('show');
+  });
+});
+
+// ================= Module 3b: Row vs Columnar Storage =================
+const rcData = [
+  {OrderID:1001, Product:'Bike Helmet', Qty:1, Amount:45, Store:'Downtown'},
+  {OrderID:1002, Product:'Water Bottle', Qty:2, Amount:12, Store:'Uptown'},
+  {OrderID:1003, Product:'Gloves', Qty:1, Amount:18, Store:'Downtown'},
+  {OrderID:1004, Product:'Bike Lock', Qty:1, Amount:25, Store:'Westside'},
+  {OrderID:1005, Product:'Helmet', Qty:3, Amount:40, Store:'Uptown'},
+  {OrderID:1006, Product:'Bike Helmet', Qty:1, Amount:45, Store:'Downtown'},
+];
+const rcCols = ['OrderID','Product','Qty','Amount','Store'];
+let rcMode = 'row';
+
+function renderBlocks(){
+  const strip = document.getElementById('blockStrip');
+  strip.innerHTML = '';
+  if(rcMode === 'row'){
+    rcData.forEach((row, ri)=>{
+      rcCols.forEach((col, ci)=>{
+        const cell = document.createElement('div');
+        cell.className = 'block-cell' + (ci === rcCols.length-1 ? ' group-end' : '');
+        cell.dataset.row = ri; cell.dataset.col = col;
+        cell.innerHTML = `<span class="bc-col">${col}</span><span>${row[col]}</span>`;
+        strip.appendChild(cell);
+      });
+    });
+  } else {
+    rcCols.forEach((col, ci)=>{
+      rcData.forEach((row, ri)=>{
+        const cell = document.createElement('div');
+        cell.className = 'block-cell' + (ri === rcData.length-1 ? ' group-end' : '');
+        cell.dataset.row = ri; cell.dataset.col = col;
+        cell.innerHTML = `<span class="bc-col">${col}</span><span>${row[col]}</span>`;
+        strip.appendChild(cell);
+      });
+    });
+  }
+}
+renderBlocks();
+
+function clearRcResult(){
+  document.querySelectorAll('.block-cell').forEach(c=>c.classList.remove('touched','used'));
+  document.getElementById('rcResult').textContent = 'Pick a layout and run a query to see how many disk blocks get touched.';
+}
+document.getElementById('modeRow').addEventListener('click', ()=>{
+  rcMode = 'row';
+  document.getElementById('rcModeLabel').innerHTML = 'Current layout: <strong>Row-based</strong> — each block on disk holds one full row.';
+  renderBlocks(); clearRcResult();
+});
+document.getElementById('modeCol').addEventListener('click', ()=>{
+  rcMode = 'col';
+  document.getElementById('rcModeLabel').innerHTML = 'Current layout: <strong>Columnar</strong> — each block on disk holds one full column.';
+  renderBlocks(); clearRcResult();
+});
+
+function runRcQuery(kind){
+  document.querySelectorAll('.block-cell').forEach(c=>c.classList.remove('touched','used'));
+  let touchedBlocks, usedCells, totalCells;
+  if(kind === 'agg'){
+    if(rcMode === 'col'){
+      document.querySelectorAll('.block-cell[data-col="Amount"]').forEach(c=>c.classList.add('used'));
+      touchedBlocks = 1; usedCells = rcData.length; totalCells = rcData.length;
+    } else {
+      rcData.forEach((row, ri)=>{
+        document.querySelectorAll(`.block-cell[data-row="${ri}"]`).forEach(c=>{
+          if(c.dataset.col === 'Amount') c.classList.add('used'); else c.classList.add('touched');
+        });
+      });
+      touchedBlocks = rcData.length; usedCells = rcData.length; totalCells = rcData.length * rcCols.length;
+    }
+  } else {
+    const targetRow = rcData.findIndex(r=>r.OrderID === 1002);
+    if(rcMode === 'row'){
+      document.querySelectorAll(`.block-cell[data-row="${targetRow}"]`).forEach(c=>c.classList.add('used'));
+      touchedBlocks = 1; usedCells = rcCols.length; totalCells = rcCols.length;
+    } else {
+      rcCols.forEach(col=>{
+        document.querySelectorAll(`.block-cell[data-col="${col}"]`).forEach(c=>{
+          if(Number(c.dataset.row) === targetRow) c.classList.add('used'); else c.classList.add('touched');
+        });
+      });
+      touchedBlocks = rcCols.length; usedCells = rcCols.length; totalCells = rcCols.length * rcData.length;
+    }
+  }
+  const efficient = (kind === 'agg') ? (rcMode === 'col') : (rcMode === 'row');
+  document.getElementById('rcResult').innerHTML =
+    `Blocks read: <strong>${touchedBlocks}</strong> · Cells touched: <strong>${totalCells}</strong> · Values actually needed: <strong>${usedCells}</strong> — <strong style="color:${efficient ? 'var(--good)' : 'var(--bad)'}">${efficient ? 'Efficient ✓' : 'Wasteful ✗'}</strong>`;
+}
+document.getElementById('qAgg').addEventListener('click', ()=>runRcQuery('agg'));
+document.getElementById('qLookup').addEventListener('click', ()=>runRcQuery('lookup'));
+
+// ================= Module 4: Transactions =================
+const steps = document.querySelectorAll('#txSteps .step');
+const txStatus = document.getElementById('txStatus');
+let txRunning = false;
+function resetSteps(){
+  steps.forEach(s=>s.classList.remove('active','done','failed'));
+  txStatus.textContent = '';
+  txStatus.className = 'status-line';
+}
+async function runTransaction(fail){
+  if(txRunning) return;
+  txRunning = true;
+  resetSteps();
+  for(let i=0;i<steps.length;i++){
+    const s = steps[i];
+    s.classList.add('active');
+    await new Promise(r=>setTimeout(r, 650));
+    s.classList.remove('active');
+    if(fail && i===2){
+      s.classList.add('failed');
+      for(let j=i;j>=0;j--){ steps[j].classList.remove('done'); steps[j].classList.add('failed'); }
+      txStatus.textContent = 'Step failed mid-transaction → ROLLBACK. No order was inserted, no stock was changed. Data stays consistent.';
+      txStatus.classList.add('rollback');
+      txRunning = false;
+      return;
+    }
+    s.classList.add('done');
+  }
+  txStatus.textContent = 'All steps succeeded → COMMIT. The order and the stock update are now permanent, together.';
+  txStatus.classList.add('commit');
+  txRunning = false;
+}
+document.getElementById('runSuccess').addEventListener('click', ()=>runTransaction(false));
+document.getElementById('runFail').addEventListener('click', ()=>runTransaction(true));
+
+// ================= Module 5: DDL vs DML =================
+document.querySelectorAll('#chipBank .chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    const answer = chip.dataset.answer;
+    const bucket = answer === 'ddl' ? document.getElementById('bucketDdl') : document.getElementById('bucketDml');
+    chip.classList.add(answer === 'ddl' ? 'placed-ddl' : 'placed-dml');
+    bucket.appendChild(chip);
+  });
+});
+document.getElementById('bucketDdl').addEventListener('click', e=>{
+  if(e.target.classList.contains('chip')){
+    e.target.classList.remove('placed-ddl','placed-dml');
+    document.getElementById('chipBank').appendChild(e.target);
+  }
+});
+document.getElementById('bucketDml').addEventListener('click', e=>{
+  if(e.target.classList.contains('chip')){
+    e.target.classList.remove('placed-ddl','placed-dml');
+    document.getElementById('chipBank').appendChild(e.target);
+  }
+});
+</script>
+</body>
+</html>

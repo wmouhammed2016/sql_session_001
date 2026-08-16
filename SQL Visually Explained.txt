@@ -1,0 +1,416 @@
+# tactiq.io free youtube transcript
+# What is SQL ? | An Animated Introduction | #SQL Course 2
+# https://www.youtube.com/watch/RBXZrPVjPyo
+
+00:00:00.040 so what is exactly SQL everything
+00:00:02.120 generate data and data is everywhere
+00:00:04.440 your first name is data your mobile and
+00:00:06.879 everything inside the mobile is data car
+00:00:09.040 is as well generating a lot of data Bank
+00:00:11.280 your Finance statements everything is
+00:00:13.240 data and now of course the question is
+00:00:14.879 where do we store our data personally we
+00:00:16.920 store a lot of our data in like excels
+00:00:19.439 spreadsheets in a text file so you store
+00:00:22.080 a lot of your data in different files
+00:00:24.080 now how about companies they have a lot
+00:00:26.039 of things that generate a lot of data
+00:00:28.080 that the products that they produce
+00:00:30.039 they're customers as well generating a
+00:00:31.759 lot of data and sales informations and a
+00:00:34.160 lot of things so companies generate
+00:00:36.399 massive amount of data so now the big
+00:00:38.399 question is how they handle the data how
+00:00:40.360 they store it of course they cannot go
+00:00:42.120 and use like simple files they need
+00:00:44.200 something bigger stronger and smarter
+00:00:46.440 and here where the database comes in so
+00:00:48.680 think about the database it's like a
+00:00:50.320 container for storing data but instead
+00:00:52.760 of just dumping files into folders the
+00:00:55.320 database organize the data so it is easy
+00:00:58.079 to access to manage and to ser sech so a
+00:01:00.680 database simply it is a container that
+00:01:02.920 stores data so now you might ask why we
+00:01:05.199 are using database can't we just use
+00:01:07.240 files like I do it personally well let
+00:01:09.280 me tell you why we use databases imagine
+00:01:11.280 that someone ask the following question
+00:01:13.280 go and find the total spending in your
+00:01:15.520 data so now in order for Mike to find
+00:01:17.600 the total spending and the costs he will
+00:01:19.920 be opening each of those files one by
+00:01:22.240 one searching for the cost trying to
+00:01:24.720 combine the data and it's going to be
+00:01:26.640 very long and Missy process but now in
+00:01:28.960 the other side if you your data in
+00:01:30.439 database and you want to ask a question
+00:01:32.680 it's going to be very easy so all what
+00:01:34.360 you have to do is to talk to the
+00:01:35.560 database to ask a question and the
+00:01:37.640 database can answer your question with a
+00:01:39.840 result and now comes of course the
+00:01:41.720 question how do we talk to a database
+00:01:44.280 well we use SQL SQL is the language that
+00:01:48.280 you use in order to talk to the database
+00:01:51.000 it stands for structured query language
+00:01:54.360 SQL and here you have people that call
+00:01:56.560 it SQL like me and others that call it
+00:01:59.240 SQL there is no right and wrong but if
+00:02:01.640 you follow me through the course I think
+00:02:03.479 you will start saying SQL so by using
+00:02:05.960 SQL you can ask the database you can ask
+00:02:08.720 your data and the database going to
+00:02:10.560 answer your question by sending you a
+00:02:12.599 result so this process is very easy
+00:02:15.000 simple and fast and this is way better
+00:02:17.239 than having your data stored in
+00:02:18.800 different files another reason why we
+00:02:20.480 use databases is that they can handle
+00:02:23.080 really huge amount of data so sometimes
+00:02:25.120 we have like millions of data inside our
+00:02:27.400 database but in the other side if you
+00:02:29.040 are storing your data inside
+00:02:30.560 spreadsheets and you have like massive
+00:02:32.440 amount of data what can to happen your
+00:02:34.200 spreadsheets going to just break they
+00:02:36.200 simply can't handle big data and another
+00:02:38.640 reason why we use databases is that it
+00:02:40.760 is just secure it is safer to store
+00:02:43.000 important and critical data inside the
+00:02:44.959 database than just storing it in
+00:02:47.319 spreadsheets and files so the databases
+00:02:49.400 are secure and you can control who is
+00:02:51.599 accessing what so it is just more
+00:02:53.640 professional to store the data inside a
+00:02:55.720 database all right my friends so far
+00:02:57.840 what we have learned most of the
+00:02:59.159 companies stores their data inside a
+00:03:01.599 container called a database and for you
+00:03:04.040 in order to ask questions and to talk to
+00:03:06.319 your database you have to speak the
+00:03:08.200 language of
+00:03:12.720 SQL now I'm going to show you how it
+00:03:14.640 looks like usually in companies so we
+00:03:16.680 have our data inside the database and
+00:03:18.560 then you will have multiple people with
+00:03:20.400 multiple roles that are just writing
+00:03:22.640 different sqls in order to talk to the
+00:03:24.760 data but now not only employees and
+00:03:26.760 people interact with the database you
+00:03:28.640 could build a website or an application
+00:03:31.040 that as well interacts with the database
+00:03:32.959 by sending different sqls and of course
+00:03:35.319 depends on how many people are
+00:03:36.680 interacting with the application at the
+00:03:38.360 websites it might generate really
+00:03:40.319 massive amount of sqls that sends to the
+00:03:43.000 database and not only that you might has
+00:03:45.080 as well Tools in order to do data
+00:03:47.120 visualizations where you have like a
+00:03:49.000 dashboard or a report maybe created
+00:03:51.400 using powerbi or Tableau and it is used
+00:03:54.280 by Stack holders and managers in order
+00:03:56.200 to make decisions and as well those
+00:03:58.239 tools will be connected to the database
+00:04:00.799 and creating sqls so now as you can see
+00:04:03.480 we have a lot of interactions with the
+00:04:05.360 database from people applications tools
+00:04:08.360 a lot of things are generating sqls and
+00:04:11.000 interacting with the database but the
+00:04:13.040 database is just a container and storage
+00:04:15.400 right so we need something software that
+00:04:18.120 manage all those requests and that's why
+00:04:20.160 we have something called database
+00:04:22.079 management system DPMS so it is a
+00:04:24.919 software that going to manage all those
+00:04:26.800 different request to our database and it
+00:04:29.039 going to make the priority which SQL
+00:04:31.039 must be executed first this software can
+00:04:33.400 as well manage the security whether the
+00:04:35.680 SQL is allowed to be executed in the
+00:04:37.840 first place so my friends the DPMS is
+00:04:40.400 the software that going to manage the
+00:04:42.520 database and now we are not done yet
+00:04:44.600 there is something missing so we have
+00:04:46.039 our data we have the software what is
+00:04:47.800 missing here is the hardware so in real
+00:04:50.000 companies we cannot run that on our PC
+00:04:52.560 because first our PC is weak and as well
+00:04:54.840 it goes offline that's why we need a
+00:04:57.120 server server it is like very powerful
+00:04:59.360 piece and as well it lives 24/7 so it is
+00:05:02.880 always available and here we can decide
+00:05:04.680 whether we're going to have a server
+00:05:05.960 inside the company or we can use cloud
+00:05:08.000 services in order to run our database so
+00:05:11.039 my friends so far what we have learned
+00:05:12.560 the database it is container to store
+00:05:14.479 the data the SQL it is the language in
+00:05:17.199 order to talk to the database the DPMS
+00:05:19.919 it is the manager it manages the
+00:05:21.759 database and the server it is the
+00:05:23.880 physical machine where the database
+00:05:25.720 lives so this is how it looks like
+00:05:31.759 and now my friends there are different
+00:05:33.440 types of databases so let's see what do
+00:05:35.280 we have the first and the most famous
+00:05:37.360 one it is the relational database it is
+00:05:40.199 very simple it is like spreadsheets call
+00:05:42.400 them table where we have columns and
+00:05:44.319 rows and then there is like a
+00:05:45.759 relationship between those tables to
+00:05:47.639 describe how they relate to each other
+00:05:49.479 and that's why we call it relational
+00:05:51.080 database so if people hear a database
+00:05:53.280 they're going to think about this one
+00:05:54.919 now we have another type of databases
+00:05:56.680 called key value this time the data is
+00:05:58.880 organized complet completely different
+00:06:00.520 where you have pairs of keys and values
+00:06:03.280 think about it it's like a big
+00:06:04.600 dictionary where you have a word like
+00:06:06.800 the key and the definition of the word
+00:06:08.840 this is the value and now moving on to
+00:06:10.479 the next one this is as well important
+00:06:12.400 column based so now instead of grouping
+00:06:14.440 the data by the rows this type of
+00:06:16.560 databases group the data into columns
+00:06:19.319 that's why it's called column based and
+00:06:21.080 this is very Advanced database in order
+00:06:23.080 to handle huge amount of data where the
+00:06:25.319 main purpose is to search for data
+00:06:27.280 moving on to another database called
+00:06:28.880 graph database case the main focus here
+00:06:30.960 is the relationship between objects so
+00:06:33.400 the main idea here is how to connect my
+00:06:35.400 data points and now finally we have the
+00:06:37.840 document database the data is stored as
+00:06:40.759 entire documents where the structure of
+00:06:42.759 the data is not that important what is
+00:06:44.599 more important is to fit everything in
+00:06:46.360 one page in one documents and now if you
+00:06:48.240 look to those five types we can group
+00:06:50.280 the document graph column based key
+00:06:52.520 value all those databases called nosql
+00:06:55.960 databases and the relational database
+00:06:58.440 SQL database and in this course we will
+00:07:00.800 be focusing of course on the relational
+00:07:02.680 database and I'm sure you have heard
+00:07:04.400 about like the Microsoft SQL Server the
+00:07:06.840 MySQL the BOS Chris SQL all those
+00:07:09.599 databases they are SQL relational
+00:07:12.000 database and for the key value you have
+00:07:14.120 the Rus the Amazon Den DB and we have
+00:07:17.039 for the column based we have the
+00:07:18.319 Cassandra and the rshift for the graph
+00:07:20.599 database we have the Neo 4G and the very
+00:07:23.319 famous database the mongodb as a
+00:07:25.759 document database now my friends for
+00:07:27.879 this course we're going to be focusing
+00:07:29.240 on the SQL relational databases because
+00:07:32.440 it is the most famous one and the most
+00:07:34.759 used one in companies and I will be
+00:07:36.759 focusing on the Microsoft SQL Server so
+00:07:39.199 those are the different types of
+00:07:44.479 databases now the databases are very
+00:07:46.720 structured and organized it has the
+00:07:48.680 following hierarchy the starting point
+00:07:50.560 is the server as you learned it is
+00:07:52.240 powerful PC and it is where the database
+00:07:54.520 lives and inside it we can have multiple
+00:07:57.440 databases so maybe you have a database
+00:07:59.520 for the sales and another one for the HR
+00:08:02.560 so the server can host multiple
+00:08:04.280 databases and as we learned a database
+00:08:06.479 is a container of your data now moving
+00:08:08.479 on to the next level in each database we
+00:08:10.560 can have multiple schemas a schema it is
+00:08:13.039 like category or you can call it a
+00:08:14.919 logical container that we can use it in
+00:08:17.039 order to group up related objects like
+00:08:19.400 let's say you have hundred of tables so
+00:08:21.360 you can split all the tables that has to
+00:08:23.360 do with the orders in one schema and
+00:08:25.560 then another group of tables with the
+00:08:27.240 schema customers and so on so it help
+00:08:29.919 you to organize your tables and your
+00:08:31.720 objects in the database and now if you
+00:08:33.679 go inside the schema you can have
+00:08:35.320 multiple objects like tables so now of
+00:08:37.519 course the question is what is a table
+00:08:39.519 it is like spreadsheet it organize your
+00:08:41.719 data into columns the column Define the
+00:08:44.360 data that you store inside it so you
+00:08:46.320 have one column about the customer ID
+00:08:48.600 another column about the names the
+00:08:50.440 scores the birthday so each column is
+00:08:52.800 about one type of data and sometimes we
+00:08:54.760 call the columns as Fields now the other
+00:08:56.920 thing that you have in tables is the
+00:08:58.480 rows or sometimes we call it records it
+00:09:01.079 is where actually the data is stored now
+00:09:03.320 in this example each record represent
+00:09:05.959 One customer one person so we have one
+00:09:08.120 record for Maria John and pet those we
+00:09:10.959 call them rows now in each table there
+00:09:13.000 is like one very important column called
+00:09:15.399 the primary key it is always very
+00:09:17.440 important to have like one unique
+00:09:19.320 identifier for each customer for each
+00:09:22.040 rle and we use it for different purposes
+00:09:24.120 in order to combine it with another
+00:09:25.839 table in order to identify quickly One
+00:09:28.200 customer so it is unique it's like
+00:09:30.200 fingerprint and there is no two
+00:09:31.959 customers having the same ID now the
+00:09:34.160 overlapping between the columns and the
+00:09:35.839 rows we have a single value a cell and
+00:09:38.560 each value each column stores specific
+00:09:41.320 data type a data type it is like what
+00:09:43.399 kind of data we are storing like an
+00:09:45.600 integer 1 2 30 or a decimal where you
+00:09:48.560 have a decimal point 3.14 now if you
+00:09:51.279 want to store characters we have
+00:09:52.839 different data types for thats like you
+00:09:54.519 want to store the name or the
+00:09:56.440 description so here we can use the Char
+00:09:58.880 or the VAR Char so you store inside them
+00:10:01.240 like the first name Maria or something
+00:10:03.120 now you might ask what is a Char or VAR
+00:10:05.040 charar so the Char always a fixed one so
+00:10:07.640 if you define it like five characters
+00:10:09.399 always it's going to go and Reserve five
+00:10:11.480 characters from the space but if you
+00:10:13.200 want things more Dynamic then you go
+00:10:14.839 with the varar and now moving on we have
+00:10:16.959 another data types called the date and
+00:10:19.079 time so if you want to store a date like
+00:10:21.000 the birth dates and if you want to store
+00:10:22.959 the time information you can use the
+00:10:24.920 time data type so we call those stuff
+00:10:26.839 int decimal chart date time they are
+00:10:29.720 data types so my friends as you can see
+00:10:31.680 SQL databases are very organized and
+00:10:37.720 structured okay so now let's focus more
+00:10:39.839 about the SQL itself we have in SQL
+00:10:42.480 different type of commands so let's say
+00:10:44.360 that we have a database and this
+00:10:45.800 database is empty so we have nothing
+00:10:47.639 inside it now of course the first thing
+00:10:49.279 that you have to do is to write an SQL
+00:10:51.760 with the command create in order to
+00:10:54.000 create brand new table in the database
+00:10:56.600 so once you executed the database going
+00:10:58.279 to go and build one but this table is
+00:11:00.360 empty so we have nothing inside it so
+00:11:02.440 now what you have done here is you have
+00:11:04.079 defined something new right and we call
+00:11:06.120 this type of commands the data
+00:11:07.920 definition language that ddl we have
+00:11:10.519 create to create something new alter in
+00:11:12.680 order to edit something that already
+00:11:14.639 exists and drop in order to delete
+00:11:16.959 something to drop for example a table so
+00:11:19.240 this is the first family of commands now
+00:11:21.240 if you looked at our table it is empty
+00:11:23.040 what do we need we need data so let's
+00:11:24.959 say that we have a website or an
+00:11:26.600 application now this application is
+00:11:28.519 generating a lot of of data now in order
+00:11:30.440 for this application to move the data
+00:11:32.440 inside our new table it must use the SQL
+00:11:35.320 command insert so if you execute inserts
+00:11:38.079 you can add new data inside your table
+00:11:40.480 this type of commands we call it data
+00:11:42.839 manipulation language and here we have
+00:11:44.600 three commands insert in order to insert
+00:11:46.720 a new data update in order to update an
+00:11:49.000 already existing data and delete in
+00:11:50.839 order to go and delete data from your
+00:11:52.680 table and that's why we call it data
+00:11:54.560 manipulation language because you are
+00:11:56.399 manipulating your data so what we have
+00:11:58.320 now we have table we have data inside
+00:12:00.279 the table now what we can do we can
+00:12:02.160 start asking questions so let's say that
+00:12:04.240 you have analytical question about your
+00:12:06.079 data now all what you have to do is to
+00:12:07.760 write something called SQL query and
+00:12:10.240 inside it you use the command select but
+00:12:12.600 the whole thing we call it a query so
+00:12:14.360 you send a query to the database you
+00:12:16.519 have a question and the database can
+00:12:18.720 return for you the result the data
+00:12:21.240 answering your query your question and
+00:12:23.519 we call this type of activities using
+00:12:25.519 SQL the data query language and here we
+00:12:28.519 have only one and it is very famous we
+00:12:30.959 have the select we can use it in order
+00:12:33.160 to query our data so those are the three
+00:12:35.920 different commands in SQL and of course
+00:12:37.880 we're going to learn all of them but we
+00:12:39.399 will spend most of our time learning how
+00:12:41.880 to write the correct query for the
+00:12:44.320 correct
+00:12:48.279 answer and now you might ask me bar why
+00:12:50.839 we have to learn SQL and if the time
+00:12:52.720 goes back are you going to learn SQL
+00:12:54.839 again well for sure of course and here
+00:12:57.440 are the top three reasons that I have
+00:12:59.399 the first one you have to learn it in
+00:13:00.760 order to talk to the data you know most
+00:13:02.760 of the companies stores their data in
+00:13:04.440 databases and this is a standard way
+00:13:06.480 this is how they do it and if you want
+00:13:08.040 to work on the company in the data field
+00:13:09.959 and you want to talk to their data then
+00:13:12.040 you have to use SQL it's like you move
+00:13:14.240 to another country where they speak
+00:13:15.839 another language and you want to live
+00:13:17.480 there for a long time you have to speak
+00:13:19.279 their language the same thing here if
+00:13:21.000 you want to work with data you have to
+00:13:22.800 learn the language in order to speak to
+00:13:24.800 the database the SQL so this is for me
+00:13:26.959 the most important reason why we have to
+00:13:28.519 learn SQL and SQL it is in high demand
+00:13:31.240 if you go now and check the job
+00:13:32.680 description of the software developer
+00:13:34.639 data analyst data engineer data
+00:13:36.480 scientist I promise you you will find
+00:13:38.240 there that they going to demand for SQL
+00:13:40.639 so you will find they going to ask for
+00:13:42.199 SQL skills almost in each job
+00:13:44.480 description so if you check for any data
+00:13:46.760 related jobs you will find that they
+00:13:48.680 going to ask for SQL skills now another
+00:13:51.040 reason that I have is it is industry
+00:13:53.199 standard so if you go and check multiple
+00:13:55.240 modern data platforms and tools like
+00:13:57.720 powerbi tblo Kafka spark synapse you
+00:14:01.120 will understand that there will be
+00:14:02.880 always a section where you have to enter
+00:14:04.920 SQL codes so most of those vendors adapt
+00:14:07.639 SQL because it is the standard it is
+00:14:09.920 widely used it is like selling points
+00:14:12.240 that their tools are easy so those are
+00:14:14.399 my top three reasons why SQL is still
+00:14:16.920 relevant and why you have to learn it
+00:14:18.959 okay my friends so with that we have now
+00:14:20.320 clear understanding what is an SQL why
+00:14:22.639 we need it what are databases and their
+00:14:24.959 different types why do we have DPMS
+00:14:27.399 servers and as well now we have
+00:14:29.680 understanding how things are very
+00:14:31.320 organized and structured inside the
+00:14:33.199 databases so that's all this is SQL all
+00:14:36.320 right so with that we have covered the
+00:14:37.680 basics about what is SQL and databases
+00:14:40.560 now in The Next Step we're going to go
+00:14:42.040 and set up our environments so that
+00:14:44.079 means we're going to prepare your PC
+00:14:45.519 with the data with the databases and all
+00:14:47.560 the tools that you need in order to
+00:14:49.240 learn SQL
+00:14:50.860 [Music]

@@ -1,0 +1,331 @@
+# tactiq.io free youtube transcript
+# SQL DDL Commands | CREATE, ALTER, DROP | #SQL Course 5
+# https://www.youtube.com/watch/3Qbq61A_sNs
+
+00:00:00.040 all right my friends so now we can to
+00:00:01.439 learn how to modify the structure of our
+00:00:03.719 database by using commands of the data
+00:00:06.480 definition language ddl so we're going
+00:00:08.639 to learn how to create a new table
+00:00:10.360 update the content of a table and as
+00:00:12.440 well how to drop a table so let's
+00:00:17.920 go okay so usually if you have like an
+00:00:20.439 empty database what you want to do is to
+00:00:22.560 go and Define the structure of your data
+00:00:24.880 so one of the fa things that we usually
+00:00:26.640 do is we go and create a new tables so
+00:00:29.359 here we have a command called create and
+00:00:31.560 if you use it you can create a new
+00:00:33.280 object inside the database like for
+00:00:35.399 example a table so once you executed
+00:00:37.280 you're going to get brand new table and
+00:00:39.280 usually the table going to be empty
+00:00:40.879 without any data so it is very simple
+00:00:43.320 this is what the create command does and
+00:00:45.440 now let's go to SQL in order to create a
+00:00:47.600 new table so my friends we have the
+00:00:49.320 following task create a new table called
+00:00:51.520 persons with columns ID person name
+00:00:55.039 birth date and phone okay so this time
+00:00:57.520 we will not start by select we will
+00:00:59.320 start with the Comm and create table so
+00:01:02.399 we are telling scl to create a table and
+00:01:04.559 after that we have to define the name of
+00:01:06.520 the table so in this task we have to
+00:01:08.280 call it persons now we have to go and
+00:01:10.159 open two parentheses like this and in
+00:01:12.400 between we have to define the columns so
+00:01:15.080 what do we need first we need an ID so
+00:01:17.320 this is the first column name and next
+00:01:19.040 we have to Define which data type for
+00:01:20.880 this column it's going to be an inch so
+00:01:23.000 it is a number does not contain any
+00:01:24.799 characters and now next we can Define
+00:01:26.479 some constraints and we cannot have a
+00:01:28.320 person without an ID so it's it should
+00:01:30.240 not be a null so not null this is the
+00:01:32.360 First Column so we have defined the name
+00:01:34.240 of the column the data type and the
+00:01:36.200 constraint okay so let's go to the
+00:01:37.720 second column and here we're going to
+00:01:38.799 have a comma and the next one name going
+00:01:40.720 to be person name so this is the column
+00:01:44.280 name and the person name we can have and
+00:01:46.079 now the data type for this column is
+00:01:47.880 going to be a varar because the person
+00:01:49.759 name contains characters so VAR charar
+00:01:52.360 and now we have to define the length so
+00:01:54.280 I'm going to go with 50 characters and
+00:01:56.439 now I would say this is a must so each
+00:01:58.560 person should has a name so we're going
+00:02:00.159 to say not null as well so with that we
+00:02:02.520 have the name the type and the
+00:02:04.520 constraint now let's move to the third
+00:02:06.399 column it's going to be Perth dates now
+00:02:09.119 which type of informations we have
+00:02:10.878 inside the birth dates so it's going to
+00:02:13.000 be a date not a number not characters so
+00:02:15.519 we're going to go with the data up date
+00:02:16.959 and now about the constraint well
+00:02:18.599 depends I would say in our application
+00:02:20.879 it is an optional because this is very
+00:02:23.000 personal information and maybe some
+00:02:24.760 persons will not provide their birth
+00:02:26.599 dates so this is an optional and I will
+00:02:28.599 not say it is not knowledge so nulls are
+00:02:30.760 allowed now let's move on to the next
+00:02:32.400 one it's going to be the phone so now
+00:02:34.400 what is the data type of a phone well we
+00:02:36.560 have some types numbers we have
+00:02:38.239 characters special characters so we
+00:02:40.400 could have anything so that's why I'm
+00:02:42.000 going to go with the farar and here you
+00:02:43.640 can specify the length that you think
+00:02:45.319 it's okay I'm going to go with 15 now of
+00:02:47.319 course depend on the system that you are
+00:02:48.959 building I would say the phones are very
+00:02:51.120 important in order to validate whether
+00:02:53.519 this is a real person so we're going to
+00:02:55.800 say not null so we are not allowing
+00:02:58.720 nulls in this field perfect so with that
+00:03:00.920 we have covered all the columns that are
+00:03:02.840 required we have defined the data types
+00:03:05.040 and as well the constraints now the last
+00:03:06.920 thing in each database table we should
+00:03:09.239 have a primary key in order to make sure
+00:03:11.720 this table has an integrity and maybe as
+00:03:14.000 well connectable to other tables so now
+00:03:16.200 what we're going to do we're going to go
+00:03:17.239 and add the primary key constraint comma
+00:03:19.799 for the last column and then we're going
+00:03:21.280 to say constraints now we have to give a
+00:03:23.640 primary key name this is only going to
+00:03:25.519 be visible for the database so I'm going
+00:03:27.440 to call it PK for primary key and here
+00:03:29.799 here persons and then after that we're
+00:03:31.959 going to say primary key and between two
+00:03:34.879 parentheses we're going to go and pick
+00:03:36.720 which one is the primary key and of
+00:03:38.360 course it's going to be the ID so we can
+00:03:40.439 go over here and say ID so again we are
+00:03:42.519 saying there is a new constraint this is
+00:03:44.640 the name of it it's only internal for
+00:03:46.560 the database and then we are saying this
+00:03:48.439 one is a primary key on the FI ID so
+00:03:51.760 that's it with that we have defined a
+00:03:53.319 primary key for our table let's go and
+00:03:55.599 execute it so as you can see it is
+00:03:57.239 successful let's go and check our
+00:03:58.840 database for our new table so if you
+00:04:00.799 don't see it already you have to right
+00:04:02.439 click on the database and then go and
+00:04:04.360 refresh so let's go to the tables and
+00:04:06.400 now we have a brand new table called
+00:04:08.519 persons so with us we have created our
+00:04:10.760 new table now of course for the ddl
+00:04:12.720 commands you will not get results or
+00:04:15.040 data all what you are getting is a
+00:04:16.918 message from the database and the
+00:04:18.639 message says here the command completed
+00:04:20.880 successfully and then we have a date
+00:04:22.560 when this is completed so that means the
+00:04:24.560 ddl commands will never return data it
+00:04:27.040 is changing the structure of your
+00:04:29.080 database it's not about retrieving any
+00:04:31.520 data and so on so this command did
+00:04:33.680 change something in our database and in
+00:04:35.639 this scenario it created a new table and
+00:04:37.759 that's why we call this data definition
+00:04:40.479 language ddl because we are defining the
+00:04:43.080 database now of course if you go and say
+00:04:45.120 select star from our new table persons
+00:04:48.680 so let's go highlight it and then
+00:04:50.800 execute it you will see we are getting
+00:04:52.960 of course the columns so the ID the
+00:04:55.120 person name birth date the phone but we
+00:04:57.680 don't have any rows that means our table
+00:05:00.120 is empty now what is very important to
+00:05:02.360 that you go and save those informations
+00:05:04.960 in an SQL script because maybe later you
+00:05:07.400 have to redefine this table but let's
+00:05:09.520 say that you have created different
+00:05:10.880 queries and you have lost the scripts
+00:05:12.800 and now I would like to see again the
+00:05:14.840 create statements for this table well
+00:05:16.880 there is trick for that if you go to the
+00:05:18.759 left side you see the person is right
+00:05:20.680 here right click on it and then you have
+00:05:23.160 here script table as and now we have
+00:05:25.240 here different options that you can run
+00:05:27.080 on the table and the first one says
+00:05:29.199 create to then let's go to new query
+00:05:32.720 editor so now what happened the database
+00:05:35.160 did read the metadata informations about
+00:05:37.240 the person and created your ddl query
+00:05:40.080 with many extra stuff that we haven't
+00:05:41.720 done but this is the template that the
+00:05:43.759 database uses so now we can see a lot of
+00:05:45.800 stuff but what is interesting is this
+00:05:48.000 create table so we can see create table
+00:05:50.960 the schema TPU the default one then the
+00:05:53.240 persons and then we have our columns the
+00:05:55.560 data type and as well the constraints so
+00:05:58.520 with that you got back your your ddl
+00:06:00.120 statements and many other stuff about
+00:06:02.120 the table which is now not interesting
+00:06:04.039 but now what I really need is to see the
+00:06:06.319 create statements about this table so
+00:06:08.479 this is how you can get back your ddl
+00:06:10.000 command but of course what I recommend
+00:06:11.560 you is always put your code inside a get
+00:06:14.120 repository and always keep it up to dat
+00:06:16.599 so that always you can check your work
+00:06:18.360 and extend
+00:06:22.240 it okay so now what else you can do with
+00:06:24.919 the structure of your database if you
+00:06:26.840 have already a table what you can do you
+00:06:28.919 can go and edit and change the
+00:06:31.319 definition of the table so for example
+00:06:33.280 let's say I would like to add a new
+00:06:34.759 column in order to do that we can use
+00:06:37.120 the command alter alter means you want
+00:06:39.680 to edit the definition of your table and
+00:06:42.080 you want to change it like adding a new
+00:06:44.120 column or maybe changing the data type
+00:06:46.280 and anything in the definition of the
+00:06:48.000 table so the alter command you can use
+00:06:50.039 it in order to change the definition of
+00:06:51.759 your table and now let's go back to
+00:06:53.560 scale and try to change something all
+00:06:55.520 right now the task says add a new column
+00:06:57.800 called email to the person's table so it
+00:07:00.400 is very simple what you going to do we
+00:07:01.639 can use the alter table command so we
+00:07:04.120 are not creating new table we want to
+00:07:06.440 edit already existing table so which
+00:07:08.960 table we want to modify it's going to be
+00:07:10.560 the persons so we are telling SQL we
+00:07:12.759 want to change something in the table
+00:07:14.199 persons and of course we have to tell
+00:07:15.680 SQL what we want to change are we
+00:07:17.599 removing a column are we adding column
+00:07:19.879 in this scenario we want to add a new
+00:07:21.520 column so let's go and add the email
+00:07:24.000 information so this is the column name
+00:07:26.440 and as you are creating a table you have
+00:07:28.400 to Define column name name the data type
+00:07:30.479 and the constraint so now for the emails
+00:07:32.400 we're going to have like characters
+00:07:33.599 numers special characters so we're going
+00:07:35.360 to go with the varart and about the
+00:07:37.840 length it's going to be let's say 50 and
+00:07:39.879 I'm going to say each person has to has
+00:07:41.680 an email so it's going to be not null so
+00:07:44.360 with that we are adding completely a new
+00:07:46.479 column so that's it let's go and execute
+00:07:49.039 it now again this is not a query this is
+00:07:51.440 a ddl command and in the output we will
+00:07:53.720 not get data we will get a message
+00:07:55.639 whether everything went correctly so it
+00:07:57.440 says commands completed successfully and
+00:07:59.520 the time when this is completed now we
+00:08:01.319 can go and do simple query just to have
+00:08:03.800 a check to the table so and now you can
+00:08:06.039 see we have our columns and at the end
+00:08:08.360 we have a new column called emails this
+00:08:10.199 is very important if you are adding a
+00:08:12.080 new column it's going to be always at
+00:08:14.120 the end of the table but now you might
+00:08:15.840 say you know what I would like to have
+00:08:17.280 the email like something in the middle
+00:08:19.240 maybe after the person name well in
+00:08:21.120 order to do that you have completely to
+00:08:23.120 delete the androp the table and create
+00:08:25.199 it from the scratch using Create command
+00:08:27.680 which is might be bad if you have that
+00:08:29.639 inside the table so if you are fine by
+00:08:31.520 adding your new column at the end you
+00:08:33.320 can use the alter table but if you say I
+00:08:35.399 would like it in the middle then sadly
+00:08:37.159 you have to go and drop everything and
+00:08:38.919 start from the scratch okay so now let's
+00:08:40.880 have another task and it says remove the
+00:08:42.919 column phone from the person's table so
+00:08:45.160 now we're going to do exactly the
+00:08:46.240 opposite we're going to go remove it
+00:08:47.800 completely with its data from the table
+00:08:50.440 so we're going to still saying alter
+00:08:52.040 table persons we are saying we want to
+00:08:54.240 edit the definition of the table persons
+00:08:56.560 and now instead of adding we will be
+00:08:58.640 dropping a column and then after that we
+00:09:01.640 have to specify as well the column name
+00:09:03.760 it's going to be the phone but we don't
+00:09:05.480 have to mention again the data type and
+00:09:08.160 the constraint and that's because the
+00:09:10.000 database already knows those
+00:09:11.480 informations so we need those
+00:09:12.920 informations if we are creating
+00:09:14.279 something new that's why we can get rid
+00:09:16.040 of that we just need the column name and
+00:09:18.519 the databas is going to do the rest so
+00:09:20.440 let's go and do that now you can see
+00:09:22.760 successful and now let's go and check
+00:09:24.640 our table and now as you can see we have
+00:09:26.600 the ID person name birth date email and
+00:09:28.959 we don't have the column phone be
+00:09:30.519 careful if you are deleting column you
+00:09:32.320 will be losing as well all the data
+00:09:34.560 inside this column so as you can see
+00:09:36.320 this is very simple this is how we can
+00:09:38.160 edit the definition of our table by
+00:09:40.440 adding and removing
+00:09:45.200 columns okay now moving on to the last
+00:09:47.519 one in this group of commands so now so
+00:09:50.040 far what we have done we have created
+00:09:51.880 something new in the database we have
+00:09:53.760 changed the definition of something
+00:09:55.800 inside our database and now the last one
+00:09:58.040 you can go and drop some something from
+00:10:00.040 the database let's say we have another
+00:10:01.959 table and we don't need it anymore so we
+00:10:04.440 can go and use the drop command in order
+00:10:07.120 to remove the table completely from the
+00:10:09.519 database and this means as well removing
+00:10:11.920 everything that table and the data
+00:10:14.079 inside it so now let's go to SQL and
+00:10:16.200 let's drop something from our database
+00:10:18.160 okay so now our task says delete the
+00:10:20.279 table persons from the database this is
+00:10:22.680 the simplest form of command in SQL but
+00:10:25.320 yet the most risky one so what we need
+00:10:27.720 we have to delete and drop drop the
+00:10:29.600 whole table persons we don't need it
+00:10:31.519 anymore we're going to say drop table
+00:10:34.399 and then all what you have to do is to
+00:10:36.200 give the name of the table persons so
+00:10:38.760 three words we don't have to specify
+00:10:40.839 anything just destroy the table persons
+00:10:43.360 let's go and execute it it is successful
+00:10:45.639 so as you can see it is very simple now
+00:10:47.399 on the left side to your database go
+00:10:49.079 refresh and go to the tables and you
+00:10:51.279 will not see the table persons so the
+00:10:53.600 drop command it is very simple but yet
+00:10:55.839 very risky so if you compare now create
+00:10:58.120 table with a drop table
+00:10:59.760 you can see destroying things is way
+00:11:01.920 easier than building it those are the
+00:11:04.040 commands create alter drop those
+00:11:06.519 commands we use in order to define the
+00:11:09.279 structure of our database the ddl
+00:11:11.880 commands that's why it's very simple all
+00:11:13.800 right so that's all about the data
+00:11:15.279 definition language ddl and with that
+00:11:17.240 you have learned how to define new stuff
+00:11:18.920 in your database now moving on to the
+00:11:20.839 next one we're going to learn about the
+00:11:22.240 data manipulation language and here we
+00:11:24.040 can learn how to manipulate our data
+00:11:26.000 inside the database let's go
+00:11:29.480 he
