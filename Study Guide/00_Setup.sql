@@ -1,8 +1,7 @@
 /* ================================================================
    SQL-S8 STUDY GUIDE — PART 0: SETUP
    ================================================================
-   This multi-part study guide replaces the single study_guide_001.sql
-   file. Run the parts IN ORDER (00 -> 08) in a new query window each
+   Run the parts IN ORDER (00 -> 08) in a new query window each
    time, or re-run this Part 0 whenever you want to reset your
    practice table to a clean state.
 
@@ -39,6 +38,7 @@ DROP TABLE IF EXISTS dbo.FactOnlineSales_Practice;
 GO
 
 SELECT TOP (1000)
+   -- Selected ONLY the data columns and excluding the META DATA columns.
     OnlineSalesKey, DateKey, StoreKey, ProductKey, PromotionKey,
     CurrencyKey, CustomerKey, SalesOrderNumber, SalesOrderLineNumber,
     SalesQuantity, SalesAmount, ReturnQuantity, ReturnAmount,

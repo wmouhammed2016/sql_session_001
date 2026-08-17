@@ -29,7 +29,8 @@ CREATE TABLE dbo.OnlineSales_Staging (
     SalesQuantity         INT           NOT NULL DEFAULT 1,
     UnitPrice              MONEY         NOT NULL CHECK (UnitPrice >= 0),
     DiscountAmount          MONEY         NULL DEFAULT 0,   -- optional, defaults to 0
-    LoadedAt                DATETIME      NOT NULL DEFAULT GETDATE()
+    LoadedAt DATETIME NOT NULL CONSTRAINT DF_Staging_LoadedAt DEFAULT GETDATE()
+
 );
 GO
 
@@ -98,6 +99,7 @@ GO
 ALTER TABLE dbo.OnlineSales_Staging ADD CONSTRAINT DF_Currency DEFAULT ('USD') FOR Currency;
 GO
 
+ALTER TABLE dbo.OnlineSales_Staging DROP CONSTRAINT DF_Staging_LoadedAt;
 ALTER TABLE dbo.OnlineSales_Staging DROP COLUMN LoadedAt;
 GO
 

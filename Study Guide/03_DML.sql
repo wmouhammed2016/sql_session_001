@@ -52,17 +52,21 @@ GO
 
 -- Demo: log a manual sale into the practice table.
 -- Note: PromotionKey is set to NULL on purpose, to show a NULL value.
+SET IDENTITY_INSERT dbo.FactOnlineSales_Practice ON;
+
 INSERT INTO dbo.FactOnlineSales_Practice
     (OnlineSalesKey, DateKey, StoreKey, ProductKey, PromotionKey,
      CurrencyKey, CustomerKey, SalesOrderNumber, SalesOrderLineNumber,
      SalesQuantity, SalesAmount, ReturnQuantity, ReturnAmount,
      DiscountQuantity, DiscountAmount, TotalCost, UnitCost, UnitPrice)
 VALUES
-    (999001, 20090615, 199, 350, NULL,
+    (999001, '2009-06-15', 199, 350, 0,
      100, 19998, 'SO999001', 1,
      2, 199.98, 0, 0,
-     0, NULL, 120.00, 60.00, 99.99);
+     0, 0, 120.00, 60.00, 99.99);
 GO
+
+SET IDENTITY_INSERT dbo.FactOnlineSales_Practice OFF;
 
 /* ----------------------------------------------------------------
    Variations:

@@ -105,7 +105,7 @@ GO
 -- Demo: sales during 2009
 SELECT OnlineSalesKey, DateKey, SalesAmount
 FROM dbo.FactOnlineSales
-WHERE DateKey BETWEEN 20090101 AND 20091231;
+WHERE DateKey BETWEEN '2009-01-01' AND '2009-12-31';
 GO
 
 /* ----------------------------------------------------------------

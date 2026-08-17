@@ -45,13 +45,15 @@ GO
    ================================================================ */
 
 -- Demo: insert one row with a NULL DiscountAmount to see the effect.
+SET IDENTITY_INSERT dbo.FactOnlineSales_Practice ON;
+
 INSERT INTO dbo.FactOnlineSales_Practice
     (OnlineSalesKey, DateKey, StoreKey, ProductKey, PromotionKey,
      CurrencyKey, CustomerKey, SalesOrderNumber, SalesOrderLineNumber,
      SalesQuantity, SalesAmount, ReturnQuantity, ReturnAmount,
      DiscountQuantity, DiscountAmount, TotalCost, UnitCost, UnitPrice)
 VALUES
-    (999003, 20090801, 199, 501, 1,
+    (999003, '2009-08-01', 199, 501, 1,
      100, 20001, 'SO999003', 1,
      1, 50.00, 0, 0,
      0, NULL, 30.00, 30.00, 50.00);

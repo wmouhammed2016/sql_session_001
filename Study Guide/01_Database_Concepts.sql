@@ -6,7 +6,9 @@
 USE ContosoRetailDW;
 GO
 
-
+-- select * from factonlinesales_practice
+-- order by OnlineSalesKey DESC;
+-- -- 19561483
 /* ================================================================
    ## 1.1 DBMS, SCHEMA, RELATIONAL DESIGN
    ================================================================
@@ -46,6 +48,8 @@ GO
 
 -- Demo: two related changes wrapped in one transaction.
 -- If anything between BEGIN and COMMIT fails, none of it sticks.
+SET IDENTITY_INSERT dbo.FactOnlineSales_Practice ON;
+
 BEGIN TRANSACTION;
 
     INSERT INTO dbo.FactOnlineSales_Practice
@@ -54,23 +58,25 @@ BEGIN TRANSACTION;
          SalesQuantity, SalesAmount, ReturnQuantity, ReturnAmount,
          DiscountQuantity, DiscountAmount, TotalCost, UnitCost, UnitPrice)
     VALUES
-        (999100, 20090601, 199, 350, NULL,
+        (19561484, '2026-08-17', 199, 350, 0,
          100, 19998, 'SO999100', 1,
          1, 99.99, 0, 0,
          0, 0, 60.00, 60.00, 99.99);
 
     UPDATE dbo.FactOnlineSales_Practice
-    SET SalesAmount = SalesAmount * 1.0   -- pretend this is a related change
-    WHERE OnlineSalesKey = 999100;
+    SET SalesAmount = SalesAmount * 2.0
+    WHERE OnlineSalesKey = 19561484;
 
 COMMIT TRANSACTION;
 GO
 
-SELECT * FROM dbo.FactOnlineSales_Practice WHERE OnlineSalesKey = 999100;
+SET IDENTITY_INSERT FactOnlineSales_Practice OFF;
+
+SELECT * FROM dbo.FactOnlineSales_Practice WHERE OnlineSalesKey = 19561484;
 GO
 
 -- Clean up the demo row.
-DELETE FROM dbo.FactOnlineSales_Practice WHERE OnlineSalesKey = 999100;
+DELETE FROM dbo.FactOnlineSales_Practice WHERE OnlineSalesKey = 19561484;
 GO
 
 /* ----------------------------------------------------------------
