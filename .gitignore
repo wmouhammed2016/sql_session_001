@@ -6,3 +6,6 @@ lecture_001.sql
 
 # Ignoring the video transcripts
 *.txt
+
+# Remove the first study guide and instead keep the file sequence
+study_guide_001.sql
