@@ -1,5 +1,8 @@
 # Ignoring the virtual enviorment
-.venv/*
+.venv
 
 # Ignoring the lecture demo
 lecture_001.sql
+
+# Ignoring the video transcripts
+*.txt
